@@ -1,0 +1,394 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.home img{
+  width: 100%;
+  height: 100%;
+  background: url("background.jpg") no-repeat center center/cover;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  position: absolute;
+  top: 0;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+nav h1 {
+  font-size: 28px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav ul li {
+  cursor: pointer;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+nav ul li img {
+  height: 20px;
+  width: 20px;
+}
+
+nav ul li:hover {
+  color: yellow;
+}
+
+#login {
+  display: none; 
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  height: auto;
+  font-size: 18px;
+  width: 25rem;
+  padding: 20px;
+  background: rgba(152, 234, 252, 0.834);
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+#login img{
+  width: 30px ;
+  height: 30px;
+  float: right;
+}
+
+#login input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#login button {
+  width: 100%;
+  padding: 10px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#login button:hover {
+  background: darkblue;
+}
+.products_container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.product {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  background: #fff;
+  transition: transform 0.3s ease;
+}
+
+.product:hover {
+  transform: scale(1.05);
+}
+
+.product img {
+  width: 100px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+#register {
+  display: none; 
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  height: auto;
+  font-size: 18px;
+  width: 25rem;
+  padding: 20px;
+  background: rgba(152, 234, 252, 0.834);
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+#register img {
+  width: 30px;
+  height: 30px;
+  float: right;
+}
+input {
+   display: block;
+   margin: 10px 0;
+   padding: 5px; 
+  width: 100%;
+ }
+#register button {
+  width: 100%;
+  padding: 10px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#register button:hover {
+  background: darkblue;
+}
+
+.products_container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin: 20px;
+}
+
+.product-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+  width: 220px;
+  text-align: center;
+}
+.product-card img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+.product-link {
+  text-decoration: none;
+  color: black;   
+}
+.product-link h3,
+.product-link p {
+  text-decoration: none;
+}
+.popup, .seller {
+  display: none;           
+  position: fixed;         
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgb(53, 188, 241);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 1000;
+  text-align: center;
+  width: 25rem;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 25px;
+  cursor: pointer;
+}
+.seller button{
+  padding: 10px;
+  border-radius: 20px;
+  
+}
+/* ====== FOOTER DESIGN ====== */
+.footer {
+  background: linear-gradient(135deg, #0d6efd, #003a91);
+  color: #fff;
+  padding: 60px 0 20px;
+  font-family: "Poppins", sans-serif;
+  margin-top: 50px;
+}
+
+.footer-container {
+  width: 90%;
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+}
+
+.footer-section h2 {
+  font-size: 1.5rem;
+  color: #ffc107;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.footer-section h2::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: #ffc107;
+  border-radius: 2px;
+}
+
+.footer-section p {
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: #f8f9fa;
+  margin-top: 10px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section ul li {
+  margin: 10px 0;
+  color: #eaeaea;
+  font-size: 0.95rem;
+  transition: 0.3s;
+  cursor: default;
+}
+
+.footer-section ul li:hover {
+  color: #ffc107;
+  transform: translateX(5px);
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  font-size: 0.9rem;
+  color: #ddd;
+}
+
+.footer-bottom p {
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer {
+    text-align: center;
+  }
+
+  .footer-section h2::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+
+
+/* ===================== ANIMATED MANA BAZAR LOGO ===================== */
+
+.logo-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manabazar-logo {
+  display: inline-flex;
+  gap: 4px;
+  position: relative;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  perspective: 600px;
+}
+
+.manabazar-logo span {
+  display: inline-block;
+  opacity: 0;
+  transform: scale(0) rotate(0deg);
+  animation: orbitIn 1.3s ease-out forwards;
+}
+
+/* Staggered animation for each letter */
+.manabazar-logo span:nth-child(1) { animation-delay: 0s; }
+.manabazar-logo span:nth-child(2) { animation-delay: 0.1s; }
+.manabazar-logo span:nth-child(3) { animation-delay: 0.2s; }
+.manabazar-logo span:nth-child(4) { animation-delay: 0.3s; }
+.manabazar-logo span:nth-child(5) { animation-delay: 0.4s; }
+.manabazar-logo span:nth-child(6) { animation-delay: 0.5s; }
+.manabazar-logo span:nth-child(7) { animation-delay: 0.6s; }
+.manabazar-logo span:nth-child(8) { animation-delay: 0.7s; }
+.manabazar-logo span:nth-child(9) { animation-delay: 0.8s; }
+
+/* Keyframes for orbiting letters */
+@keyframes orbitIn {
+  0% {
+    opacity: 0;
+    transform: rotate(0deg) translateX(100px) rotate(0deg) scale(0.2);
+  }
+  60% {
+    opacity: 1;
+    transform: rotate(180deg) translateX(40px) rotate(-180deg) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(360deg) translateX(0px) rotate(-360deg) scale(1);
+  }
+}
+
+/* Hover glow effect */
+.manabazar-logo:hover span {
+  animation: pulseGlow 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+  from {
+    color: #ffffff;
+    text-shadow: 0 0 10px #00e0ff, 0 0 20px #00e0ff;
+  }
+  to {
+    color: #ffd166;
+    text-shadow: 0 0 15px #ffd166, 0 0 30px #ffd166;
+  }
+}
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  z-index: 9999;
+  width: 300px;
+  animation: popupFade 0.3s ease-in-out;
+}
+
+@keyframes popupFade {
+  from { opacity: 0; transform: translate(-50%, -45%); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
+}

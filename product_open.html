@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mana Bazar | Product Details</title>
+
+  <style>
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f8f9fa, #e3f2fd);
+      color: #333;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #0d6efd;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+    }
+
+    header .cart {
+      cursor: pointer;
+      background: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      color: #0d6efd;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    header .cart:hover {
+      background: #e7f1ff;
+    }
+
+    /* ===== Product Section ===== */
+    .container {
+      max-width: 1200px;
+      margin: 60px auto;
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: center;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .product-main img {
+      width: 450px;
+      height: 450px;
+      object-fit: cover;
+      border-radius: 12px;
+      transition: transform 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .product-main img:hover {
+      transform: scale(1.05);
+    }
+
+    .details {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .details h2 {
+      font-size: 2rem;
+      color: #0d6efd;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #198754;
+      margin-bottom: 15px;
+    }
+
+    .details p {
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    .details strong {
+      color: #333;
+    }
+
+    /* ===== Buttons ===== */
+    .btns {
+      margin-top: 25px;
+    }
+
+    .btns input {
+      width: 70px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-right: 15px;
+      text-align: center;
+    }
+
+    .btns button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 10px;
+      transition: all 0.3s;
+    }
+
+    .btns .add {
+      background: #ffc107;
+      color: #333;
+    }
+
+    .btns .add:hover {
+      background: #ffca2c;
+    }
+
+    .btns .buy {
+      background: #198754;
+      color: white;
+    }
+
+    .btns .buy:hover {
+      background: #157347;
+    }
+
+    /* ===== Popup ===== */
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      width: 320px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      transition: transform 0.3s ease-in-out;
+      z-index: 1000;
+    }
+
+    .popup.active {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .popup h2 {
+      margin-bottom: 15px;
+      color: #0d6efd;
+    }
+
+    .popup input {
+      width: 90%;
+      margin: 10px 0;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .popup button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      margin: 8px;
+      cursor: pointer;
+      background-color: #198754;
+      color: white;
+      font-weight: bold;
+    }
+
+    .popup button.cancel {
+      background-color: #dc3545;
+    }
+
+    .popup .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      width: 20px;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .product-main img {
+        width: 100%;
+        height: 320px;
+      }
+
+      .details h2 {
+        font-size: 1.6rem;
+      }
+
+      header h1 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>🛒 Mana Bazar</h1>
+    <div class="cart" onclick="cart_image()">View Cart</div>
+  </header>
+
+  <div class="container" id="product_detail">Loading product...</div>
+
+  <!-- Buy Now Popup -->
+  <div id="buy_popup" class="popup">
+    <img src="close.png" class="close-btn" onclick="closeBuyPopup()">
+    <h2>Confirm Purchase</h2>
+    <label>Quantity</label>
+    <input type="number" id="buy_qty" min="1" value="1" />
+    <p id="buy_total">Total: ₹0</p>
+    <button onclick="confirmPurchase()">Confirm</button>
+    <button class="cancel" onclick="closeBuyPopup()">Cancel</button>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const SUPABASE_URL = 'https://gpyuveeyrckpwokdgzba.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdweXV2ZWV5cmNrcHdva2RnemJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5MDEzNTIsImV4cCI6MjA3NTQ3NzM1Mn0.mhv2u5uhzqKhgWQqNPysR3Haa5DwL1LtLfeyOvLGPLo';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let selectedProduct = null;
+    let productPrice = 0;
+
+    // Fetch user
+    async function getCurrentUser() {
+      const { data, error } = await supabase.auth.getUser();
+      if (error || !data.user) return null;
+      return data.user;
+    }
+
+    // Get product ID
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get("id");
+
+    // Load product details
+    async function loadProduct() {
+      const productDiv = document.getElementById("product_detail");
+      const { data: product, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('id', productId)
+        .single();
+
+      if (error || !product) {
+        productDiv.innerHTML = "<h2>Product not found!</h2>";
+        return;
+      }
+
+      selectedProduct = product;
+      productPrice = product.price;
+
+      productDiv.innerHTML = `
+        <div class="product-main">
+          <img src="${product.image}" alt="${product.name}">
+        </div>
+        <div class="details">
+          <h2>${product.name}</h2>
+          <p class="price">₹${product.price}</p>
+          <p><strong>Category:</strong> ${product.category}</p>
+          <p><strong>Warranty:</strong> ${product.warranty || "0 Year"}</p>
+          <p><strong>Description:</strong> ${product.description}</p>
+          <div class="btns">
+            <input type="number" placeholder="Quantity" id="qty_input" min="1" value="1">
+            <button class="add" id="add_to_cart">ADD TO CART</button>
+            <button class="buy" id="buy_now">BUY NOW</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("add_to_cart").addEventListener("click", () => addToCart(product.id));
+      document.getElementById("buy_now").addEventListener("click", openBuyPopup);
+    }
+
+    window.cart_image = function() {
+      window.location.href = "cart.html";
+    };
+
+    // Add to Cart
+    async function addToCart(productId) {
+      const user = await getCurrentUser();
+      if (!user) {
+        alert("⚠️ Please login first to add items to your cart.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      const { data: existing } = await supabase
+        .from('cart')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('product_id', productId)
+        .single();
+
+      if (existing) {
+        alert("✅ Already in your cart!");
+        return;
+      }
+
+      const { error } = await supabase
+        .from('cart')
+        .insert([{ user_id: user.id, product_id: productId }]);
+
+      if (error) console.error(error);
+      else alert("🛒 Added to your cart!");
+    }
+
+    // --- Buy Now Popup ---
+    function openBuyPopup() {
+      const popup = document.getElementById("buy_popup");
+      const qtyInput = document.getElementById("buy_qty");
+      const totalText = document.getElementById("buy_total");
+
+      popup.classList.add("active");
+      qtyInput.value = 1;
+      totalText.textContent = `Total: ₹${productPrice}`;
+
+      qtyInput.oninput = () => {
+        const total = productPrice * qtyInput.value;
+        totalText.textContent = `Total: ₹${total}`;
+      };
+    }
+
+    function closeBuyPopup() {
+      document.getElementById("buy_popup").classList.remove("active");
+    }
+
+    async function confirmPurchase() {
+      const qty = parseInt(document.getElementById("buy_qty").value);
+      const totalPrice = qty * productPrice;
+      const user = await getCurrentUser();
+
+      if (!user) {
+        alert("⚠️ Please login first.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      const { error } = await supabase
+        .from('orders')
+        .insert([{
+          user_id: user.id,
+          product_id: selectedProduct.id,
+          quantity: qty,
+          total_price: totalPrice,
+          status: 'Confirmed',
+          created_at: new Date()
+        }]);
+
+      if (error) {
+        console.error("Order Error:", error);
+        alert("❌ Failed to place order.");
+        return;
+      }
+
+      closeBuyPopup();
+      alert(`✅ Order confirmed!\nProduct: ${selectedProduct.name}\nQuantity: ${qty}\nTotal: ₹${totalPrice}`);
+    }
+
+    loadProduct();
+
+    // ✅ expose popup functions
+    window.closeBuyPopup = closeBuyPopup;
+    window.confirmPurchase = confirmPurchase;
+    window.openBuyPopup = openBuyPopup;
+  </script>
+</body>
+</html>

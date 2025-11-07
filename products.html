@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mana Bazar | Products</title>
+  <link rel="stylesheet" href="products.css">
+</head>
+<body>
+
+  <div class="nav">
+    <div class="left">Mana Bazar</div>
+    <div class="right">
+      <input type="text" id="searchInput" placeholder="Search products...">
+      <button onclick="searchProducts()">Search</button>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <select id="categorySelect" onchange="filterByCategory()">
+      <option value="">All Categories</option>
+      <option value="Electronics">Electronics</option>
+      <option value="Clothing">Clothing</option>
+      <option value="Furniture">Furniture</option>
+      <option value="Beauty">Beauty</option>
+      <option value="Grocery">Grocery</option>
+      <option value="Sports">Sports</option>
+      <option value="Books">Books</option>
+      <option value="Accessories">Accessories</option>
+      <option value="Fashion">Fashion</option>
+      <option value="Home Appliances">Home Appliances</option>
+    </select>
+
+    <input type="number" id="min_price" placeholder="Min Price">
+    <input type="number" id="max_price" placeholder="Max Price">
+    <button onclick="filterByPrice()">Filter</button>
+
+    <select id="sortSelect" onchange="sortProducts()">
+      <option value="">Sort By</option>
+      <option value="low-high">Price: Low to High</option>
+      <option value="high-low">Price: High to Low</option>
+      <option value="newest">Newest First</option>
+    </select>
+  </div>
+
+  <div class="products-grid" id="products_container">Loading...</div>
+
+  <footer>© 2025 Mana Bazar. All Rights Reserved.</footer>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const SUPABASE_URL = 'https://gpyuveeyrckpwokdgzba.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdweXV2ZWV5cmNrcHdva2RnemJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5MDEzNTIsImV4cCI6MjA3NTQ3NzM1Mn0.mhv2u5uhzqKhgWQqNPysR3Haa5DwL1LtLfeyOvLGPLo';
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let allProducts = [];
+
+    async function loadProducts() {
+      const container = document.getElementById("products_container");
+      container.innerHTML = "<p>Loading products...</p>";
+
+      try {
+        const { data: products, error } = await supabase
+          .from('products')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        allProducts = products;
+        renderProducts(products);
+      } catch (err) {
+        console.error("❌ Supabase Error:", err);
+        container.innerHTML = "<p>Failed to load products.</p>";
+      }
+    }
+
+    function renderProducts(products) {
+      const container = document.getElementById("products_container");
+      container.innerHTML = "";
+
+      if (!products.length) {
+        container.innerHTML = "<p>No products found.</p>";
+        return;
+      }
+
+      products.forEach((product) => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.onclick = () => openProduct(product.id);
+
+        card.innerHTML = `
+          <img src="${product.image || 'placeholder.jpg'}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p><strong>₹${product.price}</strong></p>
+          <p>${product.category}</p>
+          <small>${product.description || ""}</small>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // 🔍 Search Products
+    window.searchProducts = function() {
+      const term = document.getElementById("searchInput").value.toLowerCase();
+      const filtered = allProducts.filter(p =>
+        p.name.toLowerCase().includes(term) ||
+        p.category.toLowerCase().includes(term) ||
+        (p.description && p.description.toLowerCase().includes(term))
+      );
+      renderProducts(filtered);
+    };
+
+    // 💸 Filter by Price
+    window.filterByPrice = function() {
+      const min = parseFloat(document.getElementById("min_price").value) || 0;
+      const max = parseFloat(document.getElementById("max_price").value) || Infinity;
+      const filtered = allProducts.filter(p => p.price >= min && p.price <= max);
+      renderProducts(filtered);
+    };
+
+    // 🏷️ Filter by Category
+    window.filterByCategory = function() {
+      const category = document.getElementById("categorySelect").value;
+      const filtered = category ? allProducts.filter(p => p.category === category) : allProducts;
+      renderProducts(filtered);
+    };
+
+    // 📈 Sort Products
+    window.sortProducts = function() {
+      const option = document.getElementById("sortSelect").value;
+      let sorted = [...allProducts];
+
+      if (option === "low-high") {
+        sorted.sort((a, b) => a.price - b.price);
+      } else if (option === "high-low") {
+        sorted.sort((a, b) => b.price - a.price);
+      } else if (option === "newest") {
+        sorted.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      }
+
+      renderProducts(sorted);
+    };
+
+    // 🔗 Open Product Page
+    window.openProduct = function(id) {
+      window.location.href = `product_open.html?id=${id}`;
+    };
+
+    loadProducts();
+  </script>
+</body>
+</html>

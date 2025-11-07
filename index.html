@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mana Bazar</title>
+  <link rel="stylesheet" href="index.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+   <div class="home">
+    <img src="background.jpg">
+    <nav>
+      <h1>
+        <div class="logo-container">
+          <div class="manabazar-logo" id="manabazarLogo">
+            <span>M</span><span>a</span><span>n</span><span>a</span>
+            <span>B</span><span>a</span><span>z</span><span>a</span><span>r</span>
+          </div>
+        </div>
+      </h1>
+      <ul>
+        <li onclick="loadCategory('Electronics')">Electronics</li>
+        <li onclick="loadCategory('Clothing')">Clothing</li>
+        <li onclick="loadCategory('Furniture')">Furniture</li>
+        <li onclick="loadCategory('Grocery')">Grocery</li>
+        <li onclick="loadCategory('Beauty')">Beauty</li>
+        <li onclick="loadCategory('Sports')">Sports</li>
+        <li onclick="loadCategory('Toys')">Toys</li>
+        <li onclick="loadCategory('Books')">Books</li>
+        <li onclick="loadCategory('Accessories')">Accessories</li>
+        <li onclick="loadCategory('Fashion')">Fashion</li>
+        <li onclick="loadCategory('Home Appliances')">Home Appliances</li>
+        <li><img src="login.png" onclick="login()" style="cursor:pointer;width:30px;height:30px;"></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Login Form -->
+  <div id="login" class="popup">
+    <img src="close.png" onclick="login_close()" class="close-btn">
+    <h2>Login</h2>
+    <label>Email</label>
+    <input type="email" id="login_email" required>
+    <label>Password</label>
+    <input type="password" id="login_password" required>
+    <a onclick="forgotPassword()" style="color: blue; cursor: pointer;">Forgot Password?</a>
+    <a onclick="register()" style="color: blue; cursor: pointer;">Create Account</a><br><br>
+    <button onclick="loginUser()">Login</button>
+  </div>
+  <!-- Forgot Password -->
+<div id="forgot" class="popup">
+  <img src="close.png" onclick="closeForgot()" class="close-btn">
+  <h2>Reset Password</h2>
+  <label>Enter your registered email</label>
+  <input type="email" id="forgot_email" required>
+  <button onclick="resetPassword()">Send Reset Link</button>
+</div>
+
+
+  <!-- Register Form -->
+  <div id="register" class="popup">
+    <img src="close.png" onclick="register_close()" class="close-btn">
+    <h2>Register</h2>
+    <label>Full Name</label>
+    <input type="text" id="reg_username" required>
+    <label>Mobile</label>
+    <input type="text" id="reg_mobile" required>
+    <label>Alt Mobile</label>
+    <input type="text" id="reg_altmobile">
+    <label>Email</label>
+    <input type="email" id="reg_email" required>
+    <label>Password</label>
+    <input type="password" id="reg_password" required>
+    <label>Address</label>
+    <input type="text" id="reg_address" required>
+    <a onclick="seller_register()" style="color: blue; cursor: pointer;">Create Seller Account</a><br><br>
+    <button onclick="registerUser()">Register</button>
+  </div>
+
+  <!-- Seller Account -->
+  <div id="seller" class="seller">
+    <img src="close.png" class="close-btn" onclick="closeSeller()">
+    <h2>Seller Registration</h2>
+    <label>Name</label>
+    <input type="text" id="seller_name" required>
+    <label>Email</label>
+    <input type="email" id="seller_email" required>
+    <label>Address</label>
+    <input type="text" id="seller_address" required>
+    <label>Adhar Number</label>
+    <input type="text" id="seller_adhar" required>
+    <label>Account Number</label>
+    <input type="text" id="seller_account_number" required>
+    <button onclick="registerSeller()">Submit</button>
+  </div>
+
+
+  
+  <!-- Products Section -->
+  <div id="products_container" class="products_container"></div>
+  <footer class="footer">
+  <div class="footer-container">
+
+    <!-- About / Story -->
+    <div class="footer-section about">
+      <h2>Our Story</h2>
+      <p>
+        Founded with a dream to empower both sellers and shoppers, <strong>Mana Bazar</strong> began as a small online
+        store built on trust and simplicity. Today, we stand as a growing marketplace connecting thousands of users with
+        quality products from every corner of India.
+      </p>
+      <p>
+        Our success comes from you — our community of loyal customers and passionate sellers who believe that shopping
+        online should feel as personal, safe, and joyful as shopping in your neighborhood store.
+      </p>
+    </div>
+
+    <!-- Services -->
+    <div class="footer-section services">
+      <h2>Our Services</h2>
+      <ul>
+        <li>🛒 Fast & Secure Online Shopping</li>
+        <li>🚚 Nationwide Delivery</li>
+        <li>💳 Safe Online Payments</li>
+        <li>🎁 Exclusive Seller Programs</li>
+        <li>📞 24/7 Customer Support</li>
+      </ul>
+    </div>
+
+    <!-- Products -->
+    <div class="footer-section products">
+      <h2>Our Products</h2>
+      <ul>
+        <li>👕 Fashion & Clothing</li>
+        <li>💻 Electronics & Gadgets</li>
+        <li>🏠 Home & Furniture</li>
+        <li>🧴 Beauty & Health</li>
+        <li>📚 Books & Stationery</li>
+        <li>🥦 Grocery & Essentials</li>
+      </ul>
+    </div>
+
+    <!-- Success / Vision -->
+    <div class="footer-section success">
+      <h2>Our Success & Vision</h2>
+      <p>
+        In just a few years, Mana Bazar has transformed from a local dream to a trusted nationwide platform.
+        With over <strong>10,000+ happy customers</strong> and <strong>500+ active sellers</strong>,
+        we are redefining e-commerce with innovation, inclusivity, and trust.
+      </p>
+      <p>
+        Our vision is to make every Indian product globally accessible — giving local sellers a digital identity
+        and every buyer the joy of easy, reliable shopping.
+      </p>
+    </div>
+  </div>
+
+  <!-- Bottom Strip -->
+  <div class="footer-bottom">
+    <p>© 2025 Mana Bazar — Made with ❤️ in India | All Rights Reserved</p>
+  </div>
+</footer>
+
+
+  <script src="index.js"></script>
+</body>
+</html>

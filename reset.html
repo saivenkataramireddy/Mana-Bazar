@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reset Password | Mana Bazar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    /* ---------- Global Styling ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* ---------- Animated Logo ---------- */
+    .logo {
+      display: flex;
+      font-size: 50px;
+      font-weight: 700;
+      margin-bottom: 40px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .logo span {
+      display: inline-block;
+      animation: glow 2s infinite alternate;
+    }
+
+    .logo span:nth-child(odd) {
+      color: #00e6ff;
+    }
+
+    .logo span:nth-child(even) {
+      color: #ff00cc;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #00e6ff, 0 0 30px #00e6ff;
+        transform: scale(1);
+      }
+      to {
+        text-shadow: 0 0 20px #ff00cc, 0 0 40px #ff00cc, 0 0 60px #ff00cc;
+        transform: scale(1.1);
+      }
+    }
+
+    /* ---------- Reset Box ---------- */
+    .reset-box {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 15px;
+      padding: 40px 50px;
+      width: 350px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #00e6ff;
+      text-shadow: 0 0 10px #00e6ff;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0 20px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 16px;
+      transition: 0.3s ease;
+    }
+
+    input:focus {
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 10px #00e6ff;
+    }
+
+    button {
+      background: linear-gradient(45deg, #00e6ff, #ff00cc);
+      border: none;
+      padding: 12px 25px;
+      color: #fff;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00e6ff;
+    }
+
+    /* ---------- Floating Background Lights ---------- */
+    .light {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: float 8s infinite ease-in-out alternate;
+    }
+
+    .light:nth-child(1) {
+      width: 200px;
+      height: 200px;
+      background: #00e6ff;
+      top: 10%;
+      left: 20%;
+      animation-delay: 0s;
+    }
+
+    .light:nth-child(2) {
+      width: 250px;
+      height: 250px;
+      background: #ff00cc;
+      bottom: 10%;
+      right: 25%;
+      animation-delay: 3s;
+    }
+
+    @keyframes float {
+      from { transform: translateY(0) rotate(0deg); }
+      to { transform: translateY(-30px) rotate(20deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Glowing Background Lights -->
+  <div class="light"></div>
+  <div class="light"></div>
+
+  <!-- Animated ManaBazar Logo -->
+  <div class="logo" id="animatedLogo">
+    <span>M</span><span>a</span><span>n</span><span>a</span>
+    <span>B</span><span>a</span><span>z</span><span>a</span><span>r</span>
+  </div>
+
+  <!-- Reset Password Box -->
+  <div class="reset-box">
+    <h2>Reset Your Password</h2>
+    <input type="password" id="new_password" placeholder="Enter new password">
+    <button onclick="updatePassword()">Update Password</button>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://gpyuveeyrckpwokdgzba.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdweXV2ZWV5cmNrcHdva2RnemJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5MDEzNTIsImV4cCI6MjA3NTQ3NzM1Mn0.mhv2u5uhzqKhgWQqNPysR3Haa5DwL1LtLfeyOvLGPLo';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function updatePassword() {
+      const newPassword = document.getElementById('new_password').value;
+
+      if (!newPassword || newPassword.length < 6) {
+        alert("⚠️ Password must be at least 6 characters long!");
+        return;
+      }
+
+      const { data, error } = await supabase.auth.updateUser({ password: newPassword });
+
+      if (error) {
+        alert("❌ Error updating password: " + error.message);
+      } else {
+        alert("✅ Password successfully updated! Redirecting to login...");
+        window.location.href = "index.html";
+      }
+    }
+  </script>
+</body>
+</html>
